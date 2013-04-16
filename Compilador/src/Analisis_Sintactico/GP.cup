@@ -1,0 +1,529 @@
+package Analisis_Sintactico;
+
+import java_cup.runtime.*;
+
+parser code {:
+	
+	Scanner scanner;
+	
+	public parser(java.io.Reader input){
+	scanner = new Scanner(input);
+	}
+
+	public String errores(int sys)
+	{
+                if (sys == 0)
+			return("EOF");
+                else if (sys == 1)
+			return("error");
+                else if (sys == 2)
+			return("TClass");
+                else if (sys == 3)
+			return("TPublic");
+		else if (sys == 4)
+			return("TVoid");
+		else if (sys == 5)
+			return("TMain");
+		else if (sys == 6)
+			return("TString");
+		else if (sys == 7)
+			return("TID");
+		else if (sys == 8)
+			return("TLlaveDer");
+		else if (sys == 9)
+			return("TLlaveIzq");
+		else if (sys == 10)
+			return("TExtends");
+		else if (sys == 11)
+			return("TParIzq");
+                else if (sys == 12)
+			return("TParDer");
+		else if (sys == 13)
+			return("TCorDer");
+                else if (sys == 14)
+			return("TCorIzq");
+		else if (sys == 15)
+			return("TReturn");
+		else if (sys == 16)
+			return("TInt");
+		else if (sys == 17)
+			return("TBoolean");
+		else if (sys == 18)
+			return("TWhile");
+		else if (sys == 19)
+			return("TSystem");
+		else if (sys == 20)
+			return("TOut");
+		else if (sys == 21)
+			return("TPrintln");
+		else if (sys == 22)
+			return("TLength");
+                else if (sys == 58)
+			return("TIntegerLiteral");
+                else if (sys == 23)
+			return("TTrue");
+		else if (sys == 24)
+			return("TFalse");
+		else if (sys == 25)
+			return("TThis");
+		else if (sys == 26)
+			return("TNew");
+		else if (sys == 59)
+			return("TStringConst");
+		else if (sys == 27)
+			return("TComa");
+		else if (sys == 28)
+			return("TPyComa");
+		else if (sys == 29)
+			return("TPunto");
+		else if (sys == 30)
+			return("TSuma");
+                else if (sys == 31)
+			return("TResta");
+                else if (sys == 32)
+			return("TMult");
+		else if (sys == 33)
+			return("TDivision");
+		else if (sys == 34)
+			return("TDiferente");
+		else if (sys == 35)
+			return("TIgual");
+		else if (sys == 36)
+			return("TMayor");
+		else if (sys == 37)
+			return("TMayorIgual");
+		else if (sys == 38)
+			return("TMenor");
+		else if (sys == 39)
+			return("TMenorIgual");
+		else if (sys == 40)
+			return("TO");
+                else if (sys == 41)
+			return("TY");
+                else if (sys == 42)
+			return("TAsig");
+		else if (sys == 43)
+			return("TIf");
+		else if (sys == 44)
+			return("TElse");
+		else if (sys == 45)
+			return("TNegacion");
+		else if (sys == 46)
+			return("TDecimales");	
+                else if (sys == 47)
+			return("TEOF");
+		else if (sys == 48)
+			return("TStringLiteral");
+		
+                else if (sys == 49)
+			return("TStatic");
+                else if (sys == 50)
+			return("TFloat");
+		else if (sys == 51)
+			return("TChar");
+		else if (sys == 52)
+			return("TImport");
+		else if (sys == 53)
+			return("TImplements");
+		else if (sys == 54)
+			return("TExit");
+		else if (sys == 55)
+			return("TIn");
+		else if (sys == 56)
+			return("TRead");
+		else if (sys == 57)
+			return("TPuntoAst");	
+		else 
+			return("TError");
+
+	}
+
+	public void syntax_error(Symbol cur_token2)
+	{
+                if (cur_token.sym == 0)
+			report_error("FIN DE ARCHIVO", cur_token2);
+                else if (cur_token.sym == 1)
+			report_error("ERROR", cur_token2);
+
+                else if (cur_token.sym == 2)
+			report_error("Se esperaba que viniese la palabra 'class'", cur_token2);
+                else if (cur_token.sym == 3)
+			report_error("Se esperaba que viniese la palabra 'public'", cur_token2);
+		else if (cur_token.sym == 4)
+			report_error("Se esperaba que viniese la palabra 'void'", cur_token2);
+		else if (cur_token.sym == 5)
+			report_error("Se esperaba que viniese la palabra 'main'", cur_token2);
+		else if (cur_token.sym == 6)
+			report_error("Se esperaba que viniese la palabra 'String'", cur_token2);
+		else if (cur_token.sym == 7)
+			report_error("Se esperaba que viniese un identificador", cur_token2);
+		else if (cur_token.sym == 8)
+			report_error("Se esperaba que viniese el token '}'", cur_token2);
+		else if (cur_token.sym == 9)
+			report_error("Se esperaba que viniese el token '{'", cur_token2);
+		else if (cur_token.sym == 10)
+			report_error("Se esperaba que viniese la palabra 'extends'", cur_token2);
+		else if (cur_token.sym == 11)
+			report_error("Se esperaba que viniese el token '('", cur_token2);
+		else if (cur_token.sym == 13)
+			report_error("Se esperaba que viniese el token ']'", cur_token2);
+                else if (cur_token.sym == 14)
+			report_error("Se esperaba que viniese el token '[", cur_token2);
+		else if (cur_token.sym == 15)
+			report_error("Se esperaba que viniese la palabra 'return'", cur_token2);
+		else if (cur_token.sym == 16)
+			report_error("Se esperaba que viniese la palabra 'int'", cur_token2);
+		else if (cur_token.sym == 17)
+			report_error("Se esperaba que viniese la palabra 'boolean'", cur_token2);
+		else if (cur_token.sym == 18)
+			report_error("Se esperaba que viniese la palabra 'while'", cur_token2);
+		else if (cur_token.sym == 19)
+			report_error("Se esperaba que viniese la palabra 'System'", cur_token2);
+		else if (cur_token.sym == 20)
+			report_error("Se esperaba que viniese la palabra 'out'", cur_token2);
+		else if (cur_token.sym == 21)
+			report_error("Se esperaba que viniese la palabra 'println'", cur_token2);
+		else if (cur_token.sym == 22)
+			report_error("Se esperaba que viniese la palabra 'length'", cur_token2);
+                else if (cur_token.sym == 58)
+			report_error("Se esperaba que viniese un numero entero", cur_token2);
+                else if (cur_token.sym == 23)
+			report_error("Se esperaba que viniese la palabra 'true'", cur_token2);
+		else if (cur_token.sym == 24)
+			report_error("Se esperaba que viniese la palabra 'false'", cur_token2);
+		else if (cur_token.sym == 25)
+			report_error("Se esperaba que viniese la palabra 'this'", cur_token2);
+		else if (cur_token.sym == 26)
+			report_error("Se esperaba que viniese la palabra 'new'", cur_token2);
+		else if (cur_token.sym == 59)
+			report_error("Se esperaba que viniese una constante string", cur_token2);
+		else if (cur_token.sym == 27)
+			report_error("Se esperaba que viniese el token ','", cur_token2);
+		else if (cur_token.sym == 28)
+			report_error("Se esperaba que viniese el token ';'", cur_token2);
+		else if (cur_token.sym == 29)
+			report_error("Se esperaba que viniese el token '.'", cur_token2);
+		else if (cur_token.sym == 30)
+			report_error("Se esperaba que viniese el token '+'", cur_token2);
+                else if (cur_token.sym == 31)
+			report_error("Se esperaba que viniese el token '-'", cur_token2);
+                else if (cur_token.sym == 32)
+			report_error("Se esperaba que viniese el token '*'", cur_token2);
+		else if (cur_token.sym == 33)
+			report_error("Se esperaba que viniese el token '/'", cur_token2);
+		else if (cur_token.sym == 34)
+			report_error("Se esperaba que viniese el token '!='", cur_token2);
+		else if (cur_token.sym == 35)
+			report_error("Se esperaba que viniese el token '=='", cur_token2);
+		else if (cur_token.sym == 36)
+			report_error("Se esperaba que viniese el token '>'", cur_token2);
+		else if (cur_token.sym == 37)
+			report_error("Se esperaba que viniese el token '>='", cur_token2);
+		else if (cur_token.sym == 38)
+			report_error("Se esperaba que viniese el token '<'", cur_token2);
+		else if (cur_token.sym == 39)
+			report_error("Se esperaba que viniese el token '<='", cur_token2);
+		else if (cur_token.sym == 40)
+			report_error("Se esperaba que viniese el token '||'", cur_token2);
+                else if (cur_token.sym == 41)
+			report_error("Se esperaba que viniese el token '&&'", cur_token2);
+                else if (cur_token.sym == 42)
+			report_error("Se esperaba que viniese el token '='", cur_token2);
+		else if (cur_token.sym == 43)
+			report_error("Se esperaba que viniese la palabra 'if'", cur_token2);
+		else if (cur_token.sym == 44)
+			report_error("Se esperaba que viniese la palabra 'else'", cur_token2);
+		else if (cur_token.sym == 45)
+			report_error("Se esperaba que viniese el token '!'", cur_token2);
+		else if (cur_token.sym == 46)
+			report_error("Se esperaba que viniese un numero decimal", cur_token2);
+		
+
+		else if (cur_token.sym == 47)
+			report_error("Se esperaba que fuese el fin del archivo", cur_token2);
+
+		else if (cur_token.sym == 48)
+			report_error("Se esperaba que viniese una cadena de string", cur_token2);
+		else if (cur_token.sym == 12)
+			report_error("Se esperaba que viniese el token ')'", cur_token2);
+                else if (cur_token.sym == 49)
+			report_error("Se esperaba que viniese la palabra 'static'", cur_token2);
+                else if (cur_token.sym == 50)
+			report_error("Se esperaba que viniese la palabra 'float'", cur_token2);
+		else if (cur_token.sym == 51)
+			report_error("Se esperaba que viniese la palabra 'char'", cur_token2);
+		else if (cur_token.sym == 52)
+			report_error("Se esperaba que viniese la palabra 'import'", cur_token2);
+		else if (cur_token.sym == 53)
+			report_error("Se esperaba que viniese la palabra 'implements'", cur_token2);
+		else if (cur_token.sym == 54)
+			report_error("Se esperaba que viniese la palabra 'exit'", cur_token2);
+		else if (cur_token.sym == 55)
+			report_error("Se esperaba que viniese la palabra 'in'", cur_token2);
+		else if (cur_token.sym == 56)
+			report_error("Se esperaba que viniese la palabra 'read'", cur_token2);
+		else if (cur_token.sym == 57)
+			report_error("Se esperaba que viniese el token '.*'", cur_token2);
+		else 
+			report_error("Error: ", cur_token2);
+	
+	}
+
+	public void report_error(String message, Object info) {
+	   StringBuffer m = new StringBuffer("Error ");
+	
+	   if (info instanceof java_cup.runtime.Symbol) {
+	     m.append( "(" + errores(cur_token.sym) +")" );
+	     m.append(" en fila "+ cur_token.left + " columna " + cur_token.right );
+	     
+	     if (((java_cup.runtime.Symbol)info).value != null)
+	       m.append(". Lexema: " + cur_token.value.toString());
+	     
+	   }
+	   m.append(" : "+message);
+	   m.append(" y en su lugar viene " + ((java_cup.runtime.Symbol)info).value.toString());
+
+	   throw new RuntimeException(m.toString());
+	}
+
+   
+	public void report_fatal_error(String message, Object info) 	{
+		report_error(message, info);
+		throw new RuntimeException("Error Fatal de Sintaxis!!!");
+  	}
+
+:}
+
+terminal TClass, TPublic, TVoid, TMain, TString;
+terminal String TID;
+terminal TLlaveDer, TLlaveIzq, TExtends, TParIzq, TParDer;
+terminal TCorDer, TCorIzq, TReturn, TInt, TBoolean, TWhile, TSystem, TOut, TPrintln, TLength;
+terminal TTrue, TFalse, TThis, TNew, TComa, TPyComa, TPunto, TSuma, TResta, TMult, TDivision;
+terminal TDiferente, TIgual, TMayor, TMayorIgual, TMenor, TMenorIgual, TO, TY, TAsig, TIf, TElse;
+terminal TNegacion, TDecimales, TError, TEOF, TStatic, TFloat, TChar, TImport, TImplements;
+terminal TExit, TIn, TRead, TPuntoAst;
+terminal Integer TIntegerLiteral;
+terminal String TStringConst, TStringLiteral;
+
+non terminal Program, Rep_ImportDecl, Rep_ClassDecl, ImportDecl, PuntoAsterisco, TypeName, Rep_ID;
+non terminal MainClass, ClassDecl, ExtendsOImplements, BodyDecl;
+non terminal VarCostMethodClass, Rep_VarCostMethodClass, VarDecl, ConstrDecl, Rep_VarDecl, Rep_Statement, MethodDecl;
+non terminal TypeOVoid, Return_Exp, FormalList, Rep_Type, Type, Statement, Else, Exp_Opcional;
+non terminal Read, ThisOID, Exp, Exp_Simpl, ExpList, Rep_Exp, Op;
+non terminal BlockStatement, BlockIf, BlockWhile, BlockSOP, BlockSE, BlockRead, BlockThis, BlockExpList;
+non terminal anArrayAllocationExpression, anAllocationExpression, aNotExpression, aBracketExpression, aFormalList, Rep_FormalList, ClassAux  ;
+non terminal OperadorExp, ExpEnCorchetes, PuntoLenght, PuntoID, Expression, aExp;
+
+
+precedence left TSuma;
+precedence left TResta;
+precedence left TMult;
+precedence left TDivision;
+precedence left TCorIzq;
+precedence left TY;
+precedence left TMenorIgual;
+precedence left TMayorIgual;
+precedence left TPunto;
+precedence left TComa;
+precedence left TID;
+precedence left TParIzq;
+precedence left TLlaveIzq;
+precedence left ClassDecl;
+precedence left MainClass;
+
+start with Program;
+
+
+//Gramática de MiniJava
+
+
+Program         ::=     Rep_ImportDecl Rep_ClassDecl ClassAux 
+                {:
+                        System.out.println("program");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+Rep_ImportDecl 	::=  	Rep_ImportDecl ImportDecl | ;
+
+Rep_ClassDecl	::=	Rep_ClassDecl ClassAux |  
+                {:
+                        System.out.println("Rep_classDecl");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+ImportDecl 	::= 	TImport TypeName PuntoAsterisco TPyComa ;
+
+PuntoAsterisco 	::= 	TPuntoAst | ;
+
+TypeName	::=	TID Rep_ID ;
+
+Rep_ID          ::= 	Rep_ID TPunto TID | ; 
+
+MainClass	::=	TLlaveIzq TPublic TStatic TVoid TMain TParIzq TString TCorIzq TCorDer TID TParDer TLlaveIzq Statement TLlaveDer TLlaveDer ;
+
+ClassDecl	::= 	ExtendsOImplements TLlaveIzq BodyDecl TLlaveDer 
+                   {:
+                        System.out.println("ClassDecl");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+ClassAux        ::=     TClass TID ClassDecl  
+                   {:
+                        System.out.println("Class Aux");
+			//parser.raiz = new AGoal(mc,td);	
+		:}
+                        | TClass TID MainClass 
+                   {:
+                        System.out.println("Class Aux");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+ExtendsOImplements 	::= 	TExtends TID 
+                {:
+                        System.out.println("Extends");
+			//parser.raiz = new AGoal(mc,td);	
+		:}
+                        | TImplements TID 
+                {:
+                        System.out.println("implements");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+BodyDecl 	::= 	VarCostMethodClass BodyDecl | ;
+
+VarCostMethodClass 	::= 
+                	 VarDecl 
+                    |    ConstrDecl 
+                    |    MethodDecl 
+                    |    ClassDecl  
+                    ;
+
+VarDecl 	::= 	Type TID TPyComa 
+                {:
+                        System.out.println("VarDecl");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+ConstrDecl 	::= 	TPublic TID TParIzq FormalList TParDer TLlaveIzq Rep_VarDecl Rep_Statement TLlaveDer ;
+
+Rep_VarDecl 	::= 	Rep_VarDecl VarDecl | ;
+
+
+MethodDecl 	::= 	TPublic TypeOVoid TID TParIzq FormalList TParDer 
+			TLlaveIzq Rep_VarDecl Rep_Statement  Return_Exp TLlaveDer ;
+
+TypeOVoid 	::= 	Type | TVoid ;
+
+Return_Exp 	::= 	TReturn Exp TPyComa | ; 
+
+FormalList 	::= 	aFormalList 
+                 {:
+                        System.out.println("FormalList aFormalList");
+			//parser.raiz = new AGoal(mc,td);	
+		:}
+                | FormalList Rep_FormalList
+                {:
+                        System.out.println("FormalList rep_F");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+aFormalList 	::= 	Type TID
+                {:
+                        System.out.println("aFormallist");
+			//parser.raiz = new AGoal(mc,td);	
+		:};
+
+Rep_FormalList 	::= 	TComa FormalList  ;
+
+Rep_Type	 ::=  	Rep_Type TComa Type TID  |  ;
+
+Type 	::=	TInt TCorIzq TCorDer 
+|	TBoolean 
+|	TInt 
+|	TID ;
+
+Statement	::= 	BlockStatement
+| 	 BlockIf
+| 	 BlockWhile
+|	 BlockSOP
+| 	 BlockSE
+| 	 BlockRead
+| 	 BlockThis
+ ;
+
+BlockStatement ::= TLlaveIzq Rep_Statement TLlaveDer ;
+BlockIf ::= TIf TParIzq Exp TParDer Statement TElse Statement  ;
+BlockWhile ::= TWhile TParIzq Exp TParDer Statement ;
+BlockSOP ::= TSystem TPunto TOut TPunto TPrintln TParIzq Exp TParDer TPyComa ;
+BlockSE ::= TSystem TPunto TExit TParIzq TIntegerLiteral TParDer TPyComa  ;
+BlockRead ::= TID Exp_Opcional TAsig Read TPyComa ;
+BlockThis ::= ThisOID TPunto TID TParIzq ExpList TParDer ;
+
+Rep_Statement 	::= Rep_Statement Statement | ;
+
+Else	::= 	TElse Statement| ;
+
+Exp_Opcional 	::= 	TCorIzq Exp TCorDer | ;
+
+Read 	::= 	Exp | TParIzq Type TParDer TSystem TPunto TIn TPunto TRead TParIzq TParDer ;
+
+ThisOID 	::= 	TThis | TID ;
+
+Exp ::= aExp Exp ;
+
+aExp ::= Exp_Simpl 
+                {:
+                        System.out.println("aExp Exp_simple");
+			//parser.raiz = new AGoal(mc,td);	
+		:}
+        | Exp_Simpl Expression ;
+
+Expression 	::=  OperadorExp
+                  {:
+                        System.out.println("Expression Op Ex");
+			//parser.raiz = new AGoal(mc,td);	
+		:}
+             | ExpEnCorchetes 
+             | PuntoLenght 
+             | PuntoID
+             ;             
+
+OperadorExp ::=  Op Exp;
+ExpEnCorchetes ::=  TCorIzq Exp TCorDer;
+PuntoLenght ::=  TPunto TLength;
+PuntoID ::=  TPunto TID TParIzq ExpList TParDer;
+
+Exp_Simpl	::= 	TIntegerLiteral 
+|	TTrue 
+|  	TFalse 
+| 	TID 
+                {:
+                        System.out.println("Exp_simp ID");
+			//parser.raiz = new AGoal(mc,td);	
+		:}
+
+|	TThis 
+|	anArrayAllocationExpression
+|	anAllocationExpression 
+| 	aNotExpression 
+| 	aBracketExpression
+|	TStringConst ;
+
+anArrayAllocationExpression ::= TNew TInt TCorIzq Exp TCorDer ;
+
+anAllocationExpression ::= TNew TID TParIzq ExpList TParDer ;
+
+aNotExpression ::= TNegacion Exp ;
+
+aBracketExpression ::= TParIzq Exp TParDer ;
+
+ExpList 	::= 	BlockExpList |  ;
+
+BlockExpList    ::=     Exp Rep_Exp ;
+
+Rep_Exp         ::= 	Rep_Exp TComa Exp | ;
+
+Op	::=	TSuma  |  TResta  |  TMult  |  TDivision  |  TDiferente  |  TIgual  |  TMenor  |  TMenorIgual  |  TMayorIgual  |  TMayor  |  TO  |  TY ;
+
+//non terminal OperadorExp, ExpEnCorchetes, PuntoLenght, PuntoID, Expression, aExp;
+ 
